@@ -28,7 +28,7 @@ namespace AssetTrackingAPI
         {
             services.AddMvc();
 
-            services.AddDbContext<AssetDbContext>(options => options.UseSqlServer(_config.GetConnectionString("AssetDB")));
+            services.AddDbContext<AssetDBContext>(options => options.UseSqlServer(_config.GetConnectionString("AssetDB")));
 
             services.AddCors(c => c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 

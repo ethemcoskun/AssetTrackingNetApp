@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AssetTrackingAPI.Models
 {
-    public partial class AssetDbContext : DbContext
+    public partial class AssetDBContext : DbContext
     {
-        public AssetDbContext()
+        public AssetDBContext()
         {
         }
 
-        public AssetDbContext(DbContextOptions<AssetDbContext> options)
+        public AssetDBContext(DbContextOptions<AssetDBContext> options)
             : base(options)
         {
         }
@@ -33,7 +33,7 @@ namespace AssetTrackingAPI.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=LAPTOP-JC2DDKOP;Initial Catalog=AssetDB;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Server=LAPTOP-JC2DDKOP;Database=AssetDB;Trusted_Connection=True");
             }
         }
 

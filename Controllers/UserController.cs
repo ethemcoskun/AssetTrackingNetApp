@@ -15,9 +15,9 @@ namespace AssetTrackingAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly AssetDbContext _context;
+        private readonly AssetDBContext _context;
         
-        public UserController(IConfiguration configuration, AssetDbContext context)
+        public UserController(IConfiguration configuration, AssetDBContext context)
         {
             _configuration = configuration;
             _context = context;

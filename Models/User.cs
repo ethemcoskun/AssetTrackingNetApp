@@ -22,9 +22,10 @@ namespace AssetTrackingAPI.Models
         [Required]
         [StringLength(50)]
         public string Username { get; set; }
-        [Required]
         [StringLength(50)]
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
+        [StringLength(50)]
+        public string PasswordSalt { get; set; }
         [Required]
         [StringLength(50)]
         public string FirstName { get; set; }
@@ -36,6 +37,7 @@ namespace AssetTrackingAPI.Models
         public string Email { get; set; }
         [StringLength(50)]
         public string Phone { get; set; }
+        [Required]
         [StringLength(50)]
         public string Role { get; set; }
 
