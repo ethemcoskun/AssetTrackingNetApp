@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\ecosk\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\ecosk\\.nuget\\packages"
+    ]
+  }
+}
