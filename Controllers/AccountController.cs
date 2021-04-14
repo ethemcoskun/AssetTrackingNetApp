@@ -1,4 +1,5 @@
 ﻿using AssetTrackingAPI.DTOs;
+using AssetTrackingAPI.Interfaces;
 using AssetTrackingAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,14 +18,15 @@ namespace AssetTrackingAPI.Controllers
     public class AccountController : BaseApiController
     {
         private readonly AssetDBContext _context;
-
-        public AccountController(AssetDBContext context) 
+        private readonly ITokenService _tokenService;
+        public AccountController(AssetDBContext context, ITokenService tokenService) 
         {
             _context = context;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(RegisterDTO registerDto)
+        public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDto)
         {
             if (await userExists(registerDto.Username))
                 return BadRequest("This username is already registered!");
@@ -41,37 +43,53 @@ namespace AssetTrackingAPI.Controllers
                 Email = registerDto.Email,
                 Phone = registerDto.Phone,
                 Role = registerDto.Role,
-                PasswordHash = System.Text.Encoding.Default.GetString(hash),
-                PasswordSalt = System.Text.Encoding.Default.GetString(salt)
+                PasswordHash = Convert.ToBase64String(hash),
+                PasswordSalt = Convert.ToBase64String(salt)
             };
 
             _context.User.Add(user);
             await _context.SaveChangesAsync();
 
-            return user;
+            return new UserDTO 
+            {
+                Username = user.Username,
+                Firstname = user.FirstName,
+                Lastname = user.LastName,
+                Email = user.Email,
+                Phone = user.Phone,
+                Role = user.Role,
+                Token = _tokenService.CreateToken(user)
+            };
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login(LoginDTO loginDto)
+        public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDto)
         {
             var user = await _context.User.SingleOrDefaultAsync(x => x.Username == loginDto.Username);
             
             if (user == null)
                 return Unauthorized("Invalid username!");
 
-            using var hmac = new HMACSHA512(Encoding.UTF8.GetBytes(user.PasswordSalt));
+            using var hmac = new HMACSHA512(Convert.FromBase64String(user.PasswordSalt));
 
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+            var computedHashS = Convert.ToBase64String(computedHash);
 
-            for (int i = 0; i < computedHash.Length; i++)
+            if (!computedHashS.Equals(user.PasswordHash))
             {
-                if (computedHash[i] != user.PasswordHash[i])
-                {
-                    return Unauthorized("Invalid Password!");
-                }
+                return Unauthorized("Invalid Password!");
             }
 
-            return user;
+            return new UserDTO
+            {
+                Username = user.Username,
+                Firstname = user.FirstName,
+                Lastname = user.LastName,
+                Email = user.Email,
+                Phone = user.Phone,
+                Role = user.Role,
+                Token = _tokenService.CreateToken(user)
+            };
         }
 
         private async Task<bool> userExists(string username)

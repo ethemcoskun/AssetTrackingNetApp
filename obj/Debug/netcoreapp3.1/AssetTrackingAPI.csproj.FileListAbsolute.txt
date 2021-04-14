@@ -155,3 +155,4 @@ C:\Users\ecosk\VS_Projects\AssetTrackingAPI\bin\Debug\netcoreapp3.1\runtimes\win
 C:\Users\ecosk\VS_Projects\AssetTrackingAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\ecosk\VS_Projects\AssetTrackingAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\ecosk\VS_Projects\AssetTrackingAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+C:\Users\ecosk\VS_Projects\AssetTrackingAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
